@@ -1,0 +1,29 @@
+.chats{
+    display: flex;
+    column-gap: 15px;
+    width: 90%;
+    padding: 10px;
+    height: 60px;
+    margin: auto;
+}
+.chats:hover{
+    background-color: lightgray;
+}
+.chats__avatar{
+    display: flex;
+    align-items: center;
+}
+.chats__name{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+.name_chat{
+top: 0px;
+font-weight: bold;
+}
+.recent_chat{
+    position: absolute;
+    top: 15px;
+}

@@ -1,0 +1,250 @@
+.sidebar{
+    width: 35%;
+    background-color: lightgray;
+}
+.sidebar__header{
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    align-items: center;
+    padding: 5px;
+}
+
+.sidebar__search{
+    position: relative;
+}
+
+
+
+.sidebar__search > span {
+    position: absolute;
+    top: 13px;
+    color: gray;
+    left: 10px;
+}
+
+.form__input label{
+    position: absolute;
+    color: gray;
+    top: 7px;
+    left: 40px;
+}
+.sidebar__search label{
+    position: absolute;
+    color: gray;
+    top: 15px;
+    left: 50px;
+}
+
+.sidebar__search__input{
+width: 90%;
+
+height: 20px;
+padding: 10px;
+outline: none;
+border: none;
+
+}
+
+.sidebar__search{
+    padding: 10px;
+    background-color: #efefef;
+}
+.sidebar__chat >h1{
+margin-left: 10px;
+}
+
+.sidebar__chat{
+    height: 97%;
+}
+
+.sidebar__chat__container{
+    height: 80%;
+    padding: 10px;
+}
+
+.sidebar__chat{
+    background-color: #fff;
+}
+
+.sidebar__display__chats{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.chat{
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+   
+}
+
+
+.chat__details{
+    display: flex;
+    flex-direction: column;
+}
+.chat__header{
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    align-items: center;
+    padding: 5px;
+}
+
+.chat__container{
+    display: flex;
+    column-gap: 10px;
+}
+.name{
+    font-weight: bold;
+
+}
+.last__seen{
+    color: gray;
+}
+.chat__avatar{
+    margin-left: 10px;
+}
+
+.chats__display{
+    background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 85%;
+    overflow-y: scroll;
+   
+}
+.chat__body{
+    margin-left: 20px;
+ 
+}
+.chat__body__right{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+   
+}
+
+.chat__content {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    background-color: white;
+    padding: 0px 2px;
+    width: fit-content;
+    border-radius: 10px;
+}
+.chat__body__right .chat__content{
+    background-color: #dcf8c6;
+}
+.chat__body > p > span {
+    font-weight: bolder;
+}
+.chat__body__right > p > span {
+    font-weight: bolder;
+}
+.chat__content > span {
+font-size: xx-small;
+margin: 1px 0px;
+font-weight: 700;
+}
+
+.chat__type input{
+    width: 100%;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.chat__type{
+    display: flex;
+    padding: 14px;
+    align-items: center;
+    column-gap: 5px;
+    position: relative;
+}
+
+.chat__type > label {
+    position: absolute;
+    top: 20px;
+    left : 70px;
+}
+
+.form__input{
+    width: 100%;
+    display: flex;
+    column-gap: 15px;
+    align-items: center;
+    position: relative;
+}
+
+.form__input > button{
+    display: none;
+}
+
+
+@media screen and (max-width: 660px){
+    .chat__container{
+        font-size: small;
+    }
+    .chat__icons > button > svg{
+        width: 0.7em;
+    }
+    .chat__icons{
+        display: flex;
+    }
+    .chat__avatar > div > img{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+    .header__right > button > svg {
+         width: 0.7em;
+    }
+    .header__right{
+        display: flex;
+    }
+    .header__left > div > img{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+    .label__sidebar{
+        font-size: small;
+    }
+}
+
+@media screen and (max-width:470px){
+    .sidebar__chat__container{
+        font-size: small;
+    }
+    .chats__avatar > div > img{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+    .chats{
+        /* display: flex; */
+        column-gap: 0px;
+        width: fit-content;
+        padding: 0px;
+        /* height: 60px; */
+        /* margin: auto; */
+    }
+}
+
+@media screen and (max-width:400px){
+    .app__body{
+        flex-direction: column;
+    }
+    .chat{
+        width: 100%;
+    }
+    .sidebar{
+        width: 100%;
+    }
+}
