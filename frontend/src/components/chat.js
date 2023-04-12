@@ -19,11 +19,13 @@ export default function useChat(){
     }]);
     
 
+    const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
+
 useEffect(()=>{
 
 async function getdata(){
     console.log('aya')
-    const res = await fetch('/wp');
+    const res = await fetch(`${BASE_URL}/wp`);
 
     console.log(res)
 
@@ -63,7 +65,7 @@ async function handleSubmit(e){
 
     const json =  {name:name,message:msg,timestamp:time,received:received};
     console.log(json)
-    const response = await fetch('/wp',{
+    const response = await fetch(`${BASE_URL}/wp`,{
         method:'POST',
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify(json)
@@ -160,4 +162,6 @@ changeMessage(()=>{
         </div>
     )
 }
+
+
 
