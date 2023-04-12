@@ -13,7 +13,8 @@ const Pusher = require('pusher');
 const cors = require('cors');
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}));
+app.use(cors());
 app.use('/wp/',router);
 
 const pusher = new Pusher({
@@ -60,7 +61,7 @@ if(change.operationType==='insert'){
 
 // or we could do 
 
-app.use(cors());
+
 
 mongoose.connect(mongoUrl).then(()=>{
     app.listen(port, ()=>{
