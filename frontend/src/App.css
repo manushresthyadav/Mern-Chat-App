@@ -9,8 +9,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Amatic SC', cursive;
-font-family: 'Delicious Handrawn', cursive;
+font-family: 'Amatic SC', sans-serif;
+font-family: 'Delicious Handrawn', sans-serif;
+
 width: 98vw;
 height: 95vh;
 background-color: rgb(237, 237, 237);
