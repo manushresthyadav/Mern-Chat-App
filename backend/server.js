@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
-app.use('/wp/',router);
+app.use('/wp',router);
 
 const pusher = new Pusher({
     appId: "1582621",
