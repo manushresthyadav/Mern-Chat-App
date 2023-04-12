@@ -3,7 +3,7 @@ const router  = require('./routes/routes')
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 const mongoUrl = process.env.MONGO_URL
 console.log(port);
 const express = require('express');
