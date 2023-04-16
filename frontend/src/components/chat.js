@@ -63,12 +63,20 @@ console.log(nam);
 console.log(props.provide);
 
     
+    
+
+    // const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
+    // const BASE_URL = '';
+
+    const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
 
 useEffect(()=>{
 
 async function getdata(){
-    console.log('aya')
-    const res = await fetch('/wp');
+
+    console.log('aya',props.provide.email , auth.currentUser.email);
+    const res = await fetch(`/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`);
+// REMEMBER TO ADD BASE_URL IN HERE WHEN DEPLOYING THE FROTNEND -> THAT IS THE URL OF THE WEBSITE WHERE THE BACKEND IS DEPLOYED
 
     console.log(res)
 
@@ -111,7 +119,9 @@ const receiver = props.provide.email;
 
     const json =  {name:name,message:msg,timestamp:time,receiver:receiver,poster:poster};
     console.log(json)
-    const response = await fetch('/wp',{
+
+    const response = await fetch(`/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`,{
+
         method:'POST',
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify(json)
@@ -183,7 +193,7 @@ return <Message content={msg} />
 
 <TagFacesIcon/>
 <form className='form__input' onSubmit={handleSubmit}>
-<label htmlFor='chat' className='label'>Type a message</label>
+<label htmlFor='chat' className='label'></label>
 <input name='chat' onClick={handleClick} onMouseLeave={handleIf} onChange={(e)=>{
 changeMessage(()=>{
     return e.target.value;
@@ -199,6 +209,7 @@ changeMessage(()=>{
         </div>
     )
 }
+
 
 
 
