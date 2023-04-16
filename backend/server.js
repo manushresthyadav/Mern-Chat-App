@@ -14,9 +14,8 @@ const cors = require('cors');
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
-
 app.use('/wp/',router);
-app.use(cors());
+
 const pusher = new Pusher({
     appId: "1582621",
     key: "dc320b1fae9f195b63a4",

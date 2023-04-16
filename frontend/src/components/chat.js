@@ -63,17 +63,13 @@ console.log(nam);
 console.log(props.provide);
 
     
-    
-
-    const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
-    // const BASE_URL = '';
 
 useEffect(()=>{
 
 async function getdata(){
-    console.log('aya',props.provide.email , auth.currentUser.email);
-    const res = await fetch(`/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`);
-// REMEMBER TO ADD BASE_URL IN HERE WHEN DEPLOYING THE FROTNEND -> THAT IS THE URL OF THE WEBSITE WHERE THE BACKEND IS DEPLOYED
+    console.log('aya')
+    const res = await fetch('/wp');
+
     console.log(res)
 
     if(res.ok){
@@ -115,7 +111,7 @@ const receiver = props.provide.email;
 
     const json =  {name:name,message:msg,timestamp:time,receiver:receiver,poster:poster};
     console.log(json)
-    const response = await fetch(`/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`,{
+    const response = await fetch('/wp',{
         method:'POST',
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify(json)
@@ -203,4 +199,6 @@ changeMessage(()=>{
         </div>
     )
 }
+
+
 
