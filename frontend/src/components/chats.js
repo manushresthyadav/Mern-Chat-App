@@ -1,5 +1,6 @@
 
 import "./chats.css"
+import "./styles.css"
 import { Avatar } from "@mui/material"
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import {  IconButton } from '@mui/material';
@@ -12,7 +13,7 @@ import {ContextProvider} from "./Context";
 import Chat from "./chat"
 import App from "../App"
  function useChats (props) {
-
+const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
 const auth = getAuth(app);
 console.log(auth.currentUser);
 
