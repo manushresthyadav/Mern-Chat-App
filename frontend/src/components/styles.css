@@ -27,7 +27,7 @@
     position: absolute;
     color: gray;
     top: 7px;
-    left: 40px;
+    left: 1000px;
 }
 .sidebar__search label{
     position: absolute;
@@ -184,6 +184,18 @@ font-weight: 700;
 
 .form__input > button{
     display: none;
+}
+
+.sidebar__chat > button {
+     width: 100%;
+     margin: auto;
+     padding: 10px;
+     font-weight:bold;
+     font-size: large;
+     background-color: #efefef;
+     outline: none;
+     border: none;
+     border-bottom: 1px solid black;
 }
 
 

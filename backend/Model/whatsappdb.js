@@ -4,8 +4,9 @@ const whatsappSchema = mongoose.Schema({
     name:String,
     message:String,
     timestamp:String,
-    received: String,
+    receiver: String,
+    poster:String,
 })
 
- const whatsappModel = mongoose.model('messagecontent',whatsappSchema);
- module.exports = whatsappModel;
+//  const whatsappModel = mongoose.model('messagecontent',whatsappSchema);
+ module.exports = whatsappSchema;

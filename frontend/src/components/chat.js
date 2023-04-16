@@ -7,24 +7,73 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {IconButton} from '@mui/material';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 import MicIcon from '@mui/icons-material/Mic';
-import Message from "./messages"
-export default function useChat(){
+import Message from "./messages";
+import { MyContext } from './Context';
+import { useContext } from 'react';
+import { getAuth } from 'firebase/auth';
+import firestore from "../firebase/firebase"
+export default function useChat(props){
 
-    const [message,changeMessage] = useState("");
-    const [allMessages,changeAllMessages] = useState([{
-        name:"manu",
-        message:"this is manu",
-        timestamp:"20th aug 2023",
-        received: "true",
-    }]);
+const auth = getAuth();
+
+console.log(props.msg);
+    const [nam,changeNam] = useState({
+        name:props.provide.name,
+        email:props.provide.email,
+    });
+ console.log(props.provide)
+const Context = useContext(MyContext);
+
+const [runEffect, setRunEffect] = useState(false);
+
+  useEffect(() => {
+    if (!Context) {
+      setRunEffect(true);
+    }
+  }, [Context]);
+console.log(Context);
+const [message,changeMessage] = useState("");
+    const [allMessages,changeAllMessages] = useState(props.msg);
+console.log(allMessages);
+useEffect(()=>{
+    console.log('inside the useEffect, context changed')
+    if(Context  &&  Context.name!==""){
+        changeNam({
+            name:Context.name,
+            email:Context.email,
+        });
+        localStorage.setItem("user",JSON.stringify({
+            name:Context.name,
+            email:Context.email,
+        }));
+        const x = JSON.parse(localStorage.getItem('user'));
+        console.log(x);
+        console.log('making the props.changeProvide change and hence to render the app.js component ')
+props.changeProvide({
+    name:Context.name,
+    email:Context.email,
+})
+    }
     
+},[Context]);
+
+
+
+console.log(nam);
+console.log(props.provide);
+
+    
+    
+
+    const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
+    // const BASE_URL = '';
 
 useEffect(()=>{
 
 async function getdata(){
-    console.log('aya')
-    const res = await fetch('/wp');
-
+    console.log('aya',props.provide.email , auth.currentUser.email);
+    const res = await fetch(`/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`);
+// REMEMBER TO ADD BASE_URL IN HERE WHEN DEPLOYING THE FROTNEND -> THAT IS THE URL OF THE WEBSITE WHERE THE BACKEND IS DEPLOYED
     console.log(res)
 
     if(res.ok){
@@ -32,6 +81,8 @@ async function getdata(){
     console.log(response);
 
     changeAllMessages(response);
+    props.changemsg(response);
+    localStorage.setItem("messages",JSON.stringify(response));
     }else{
         console.log('response is invalid')
     }
@@ -40,7 +91,7 @@ async function getdata(){
 
 getdata();
 
-},[])
+},[Context,runEffect])
 
 
 // console.log(allMessages);
@@ -58,12 +109,13 @@ async function handleSubmit(e){
    
     const msg= message;
     const time = new Date().toISOString();
-    const name = "xyz";
-    const received = "true";
+    const name = auth.currentUser.displayName;
+    const poster = auth.currentUser.email;
+const receiver = props.provide.email;
 
-    const json =  {name:name,message:msg,timestamp:time,received:received};
+    const json =  {name:name,message:msg,timestamp:time,receiver:receiver,poster:poster};
     console.log(json)
-    const response = await fetch('/wp',{
+    const response = await fetch(`/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`,{
         method:'POST',
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify(json)
@@ -80,6 +132,7 @@ console.log(response)
         changeAllMessages(prev => {
           return [ ...prev, res ];
         });
+        props.changemsg([...props.msg,res]);
       } else {
         console.log('unsuccessful response');
         setError('There was some error while sending the message.');
@@ -94,7 +147,7 @@ function handleIf(e){
         label.style.display = 'block';
     }
 }
-
+console.log('all messages' , allMessages);
     return (
         <div className='chat'>
 
@@ -105,8 +158,8 @@ function handleIf(e){
         <Avatar src='https://thumbs.dreamstime.com/b/portrait-handsome-nice-entrepreneur-formal-suit-standing-outside-work-successful-businessman-corporate-people-office-204808830.jpg'/>
     </div>
     <div className='chat__details'>
-        <div className='name'>Manu</div>
-        <div className='last__seen'>last seen friday 20:30 pm</div>
+        <div className='name'>{props.provide.name}</div>
+        <div className='last__seen'>{props.provide.email}</div>
     </div>
 
     </div>
@@ -123,18 +176,8 @@ function handleIf(e){
 
 <div className='chats__display'>
 
-<div className='chat__body'>
-    <p>
-        <span>Manu</span>
-        <div className='chat__content'><p>This is the message</p>
-        <span className='chat__timestamp'>{new Date().toISOString()}</span></div>
-       
-    </p>
 
-
-
-</div>
-{allMessages && allMessages.map((msg)=>{
+{props.msg && (props.msg).map((msg)=>{
 return <Message content={msg} />
 })}
 

@@ -14,8 +14,9 @@ const cors = require('cors');
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
-app.use('/wp/',router);
 
+app.use('/wp/',router);
+app.use(cors());
 const pusher = new Pusher({
     appId: "1582621",
     key: "dc320b1fae9f195b63a4",
@@ -31,6 +32,8 @@ db.once('open',()=>{
     const collection = db.collection('messagecontents');
 const changeStream  = collection.watch();
 
+const userCollection  = db.collection('users');
+const userStream  = userCollection.watch();
 
 changeStream.on("change",(change)=>{
 console.log('a change occured' );
@@ -46,6 +49,20 @@ if(change.operationType==='insert'){
     console.log('error triggering pusher')
 }
 });
+
+userStream.on('change',(change)=>{
+    console.log('new user added , this is in pusher -> server js file');
+    if(change.operationType==='insert'){
+    const user= change.fullDocument;
+    pusher.trigger('newuser','inserted',{
+        name: user.name,
+        email:user.email,
+        password: user.password,
+    })}else{
+        console.log('error triggering user pusher')
+    }
+})
+
 })
 
 
@@ -60,7 +77,7 @@ if(change.operationType==='insert'){
 
 // or we could do 
 
-app.use(cors());
+
 
 mongoose.connect(mongoUrl).then(()=>{
     app.listen(port, ()=>{

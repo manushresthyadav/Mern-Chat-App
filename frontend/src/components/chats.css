@@ -7,7 +7,7 @@
     margin: auto;
 }
 .chats:hover{
-    background-color: lightgray;
+    background-color: rgb(244, 242, 242);
 }
 .chats__avatar{
     display: flex;

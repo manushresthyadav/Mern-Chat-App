@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import "./styles.css"
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import {  IconButton } from '@mui/material';
@@ -6,8 +6,98 @@ import ChatIcon from '@mui/icons-material/Chat';
 import {Avatar} from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
-import Chats from "./chats"
-export default function useSidebar  ()  {
+import Chats from "./chats";
+import Pusher from "pusher-js"
+import { responsiveProperty } from '@mui/material/styles/cssUtils';
+import { getAuth } from 'firebase/auth';
+import {app} from "../firebase/firebase";
+
+export default function useSidebar  (props)  {
+
+ 
+  
+const [contacts , changeContacts ] = useState([{
+  name:"Admin",
+  email : "admin00@gmail.com",
+}])
+const [users, changeUsers] = useState([
+  {
+    name : "Admin",
+    email: "admin00@gmail.com"
+  }
+]);
+const [check , setCheck ] = useState(false);
+const changeCheck = () => {
+  setCheck(!check);
+};
+const auth = getAuth(app);
+
+console.log(auth.currentUser);
+const uid = auth.currentUser.uid;
+
+const [select, changeselect] = useState(true);
+
+useEffect(()=>{
+console.log('inside the contacts useffect');
+
+async function getContacts(){
+  const response = await fetch(`wp/contacts?uid=${uid}` , {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+
+const contacts = await response.json();
+console.log(contacts)
+changeContacts(contacts);
+
+}
+
+getContacts();
+
+
+},[check])
+
+useEffect(()=>{
+console.log('inside previous sidebar useeffect6')
+  async function getAllUsers(){
+
+    const resposne = await fetch(`/wp/user?email=${auth.currentUser.email}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type' : 'application/json',
+      }
+    })
+
+    const users = await resposne.json();
+    console.log(users)
+    changeUsers(users);
+  }
+
+  getAllUsers();
+ 
+
+},[])
+
+
+  useEffect(()=>{
+    console.log('inside the sidebar js file useffect')
+      const pusher = new Pusher('dc320b1fae9f195b63a4', {
+        cluster: 'ap2'
+      });
+    
+      const channel = pusher.subscribe('newuser');
+      channel.bind('inserted', (data)=> {
+        // alert(JSON.stringify(data));
+        changeUsers((prev)=>{
+          return [...prev, data];
+        })
+
+      });
+    
+    },[])
+
 
   function handleClick(e){
     const label = document.getElementsByClassName("label__sidebar")[0];
@@ -55,12 +145,19 @@ function handleIf(e){
     <div className='sidebar__chat__container'>
 <div className='sidebar__chat'>
 
-<h1>Add new Chat</h1>
+<button style={{backgroundColor :  (select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=>!prev)}}>Global Users</button>
+<button style={{backgroundColor :  (!select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=>!prev)}}>Contacts</button>
+{select && users.map((user)=>{
+  console.log(user)
+  return <Chats details={user} contacts={false} changeit={changeCheck}  changeProvide={props.changeProvide} provide={props.provide} msg={props.msg} changemsg={props.changemsg}/>
+})}
+
+{!select && contacts.map((contact)=>{
+  return <Chats details={contact} contacts={true} changeit={changeCheck} changeProvide={props.changeProvide} provide={props.provide} msg={props.msg} changemsg={props.changemsg}/>
+})}
+{/* <Chats changeRender={props.changeRender}/> */}
 <div className='sidebar__display__chats'></div>
-<Chats/>
-<Chats/>
-<Chats/>
-<Chats/>
+
 </div>
 </div>
 
