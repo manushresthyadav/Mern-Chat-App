@@ -21,12 +21,13 @@ const res = JSON.parse(localStorage.getItem("user"));
 console.log(res)
 
 const [provide,changeProvide] = useState({
-  name:res.name,
-  email:res.email,
+  name:res ? res.name : '',
+  email:res ? res.email : '',
 });
 const newmsg = JSON.parse(localStorage.getItem("messages"));
 console.log(newmsg);
-const [msg,changemsg] = useState(JSON.parse(localStorage.getItem("messages")));
+
+const [msg,changemsg] = useState(newmsg ? JSON.parse(localStorage.getItem("messages")) : []);
 
 // useEffect(()=>{
 //   if(res!=undefined){
@@ -71,3 +72,4 @@ console.log(provide);
 }
 
 export default App;
+
