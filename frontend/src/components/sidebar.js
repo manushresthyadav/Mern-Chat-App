@@ -41,7 +41,7 @@ useEffect(()=>{
 console.log('inside the contacts useffect');
 
 async function getContacts(){
-  const response = await fetch(`${BASE_URL}wp/contacts?uid=${uid}` , {
+  const response = await fetch(`${BASE_URL}/wp/contacts?uid=${uid}` , {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
