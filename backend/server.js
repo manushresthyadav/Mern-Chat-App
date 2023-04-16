@@ -13,7 +13,8 @@ const Pusher = require('pusher');
 const cors = require('cors');
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}));
+app.use(cors());
 app.use('/wp/',router);
 
 const pusher = new Pusher({
@@ -65,19 +66,6 @@ userStream.on('change',(change)=>{
 })
 
 
-
-// enable CORS
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header('Access-Control-Allow-Headers', '*');
-//   next();
-// });
-
-// or we could do 
-
-
-
 mongoose.connect(mongoUrl).then(()=>{
     app.listen(port, ()=>{
         console.log('listening to the requests made at the port ' , port)
@@ -85,4 +73,5 @@ mongoose.connect(mongoUrl).then(()=>{
 }).catch((err)=>{
     console.log('there is an error connection to the database' , err)
 })
+
 
