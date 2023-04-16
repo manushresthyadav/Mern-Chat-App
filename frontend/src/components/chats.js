@@ -36,7 +36,7 @@ async function handleClick(e){
     const name = fc.textContent;
     const email = sc.textContent;
     console.log(email , name)
-   const response = await fetch(`/wp/contacts`,{
+   const response = await fetch(`${BASE_URL}/wp/contacts`,{
         method: 'POST',
         headers: {
             'Content-Type' : 'application/json',
