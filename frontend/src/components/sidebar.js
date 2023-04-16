@@ -13,7 +13,7 @@ import { getAuth } from 'firebase/auth';
 import {app} from "../firebase/firebase";
 
 export default function useSidebar  (props)  {
-
+  const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
  
   
 const [contacts , changeContacts ] = useState([{
@@ -41,7 +41,7 @@ useEffect(()=>{
 console.log('inside the contacts useffect');
 
 async function getContacts(){
-  const response = await fetch(`wp/contacts?uid=${uid}` , {
+  const response = await fetch(`${BASE_URL}wp/contacts?uid=${uid}` , {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ useEffect(()=>{
 console.log('inside previous sidebar useeffect6')
   async function getAllUsers(){
 
-    const resposne = await fetch(`/wp/user?email=${auth.currentUser.email}`, {
+    const resposne = await fetch(`${BASE_URL}/wp/user?email=${auth.currentUser.email}`, {
       method: 'GET',
       headers: {
         'Content-Type' : 'application/json',
