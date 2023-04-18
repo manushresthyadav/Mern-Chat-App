@@ -38,7 +38,7 @@ else{
         const user = await createUserWithEmailAndPassword(auth,data.email,data.password).then((userc)=>{
             console.log(userc);
 
-            fetch('${BASE_URL}/wp/user',{
+            fetch(`${BASE_URL}/wp/user`,{
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json'
