@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import "./styles.css"
 import { Avatar } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
@@ -62,8 +62,12 @@ props.changeProvide({
 console.log(nam);
 console.log(props.provide);
 
-    
-    
+const chatContainerRef = useRef(null);
+useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [allMessages]);
 
   
     const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
@@ -108,7 +112,10 @@ function handleClick(e){
 async function handleSubmit(e){
     e.preventDefault();
     console.log('aya')
-   
+   const all = document.querySelectorAll('.chat__input');
+   all.forEach((elm)=>{
+    console.log(elm.textContent)
+   })
     const msg= message;
     const time = new Date().toISOString();
     const name = auth.currentUser.displayName;
@@ -132,11 +139,16 @@ console.log(response)
       
         const form = document.getElementsByClassName("form__input")[0];
         form.reset();
-        
+        const y="";
+        changeMessage('');
         changeAllMessages(prev => {
           return [ ...prev, res ];
         });
         props.changemsg([...props.msg,res]);
+        const chatContainer = document.getElementsByClassName('chats__display');
+        chatContainer.forEach((elm)=>{
+            elm.scrollTop = elm.scrollHeight;
+        })
       } else {
         console.log('unsuccessful response');
         setError('There was some error while sending the message.');
@@ -178,12 +190,13 @@ console.log('all messages' , allMessages);
 
 </div>
 
-<div className='chats__display'>
+<div ref={chatContainerRef} className='chats__display'>
 
 
 {props.msg && (props.msg).map((msg)=>{
 return <Message content={msg} />
 })}
+{props.msg.length===0 && <div className='detail'>Add User to Contact's and double click on it to initiate the chat</div>}
 
 </div>
 
@@ -192,7 +205,7 @@ return <Message content={msg} />
 <TagFacesIcon/>
 <form className='form__input' onSubmit={handleSubmit}>
 <label htmlFor='chat' className='label'></label>
-<input name='chat' onClick={handleClick} onMouseLeave={handleIf} onChange={(e)=>{
+<input name='chat' value={message}  className='chat__input' onClick={handleClick} onMouseLeave={handleIf} onChange={(e)=>{
 changeMessage(()=>{
     return e.target.value;
 })
@@ -207,6 +220,9 @@ changeMessage(()=>{
         </div>
     )
 }
+
+
+
 
 
 
