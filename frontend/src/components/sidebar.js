@@ -63,7 +63,7 @@ useEffect(()=>{
 console.log('inside previous sidebar useeffect6')
   async function getAllUsers(){
 
-    const resposne = await fetch(`/wp/user?email=${auth.currentUser.email}`, {
+    const resposne = await fetch(`${BASE_URL}/wp/user?email=${auth.currentUser.email}`, {
       method: 'GET',
       headers: {
         'Content-Type' : 'application/json',
@@ -166,5 +166,7 @@ function handleIf(e){
     </div>
   )
 }
+
+
 
 
