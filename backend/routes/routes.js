@@ -44,8 +44,8 @@ const msgModel1 = mongoose.model(`${user1}${user2}`,whatsappSchema);
   name:name,
   message: message,
   timestamp: timestamp,
-  receiver: user1,
-  poster: user2,
+  receiver: user2,
+  poster: user1,
  });
 msg2.save();
  msg1.save().then((result)=>{
