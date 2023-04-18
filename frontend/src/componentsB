@@ -9,7 +9,7 @@ import './Auth.css'
 import {Link} from "react-router-dom"
 export default function useRegister (){
    
-
+  const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
     const Navigate = useNavigate();
     const [data,changedata] = useState({
         email : "" ,
@@ -38,7 +38,7 @@ else{
         const user = await createUserWithEmailAndPassword(auth,data.email,data.password).then((userc)=>{
             console.log(userc);
 
-            fetch('/wp/user',{
+            fetch('${BASE_URL}/wp/user',{
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json'
