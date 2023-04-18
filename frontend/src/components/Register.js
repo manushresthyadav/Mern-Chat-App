@@ -79,7 +79,7 @@ else{
             </form>
             <div>OR</div>
             <Link to="/login">
-            <button>Sign In</button>
+            <button className="btn">Sign In</button>
             </Link>
            
         </div>
