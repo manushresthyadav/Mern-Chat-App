@@ -1,6 +1,6 @@
 
 import "./chats.css"
-import "./styles.css"
+// import "./styles.css"
 import { Avatar } from "@mui/material"
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import {  IconButton } from '@mui/material';
