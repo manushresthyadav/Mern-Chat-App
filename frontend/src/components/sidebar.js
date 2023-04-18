@@ -63,7 +63,7 @@ useEffect(()=>{
 console.log('inside previous sidebar useeffect6')
   async function getAllUsers(){
 
-    const resposne = await fetch(`${BASE_URL}/wp/user?email=${auth.currentUser.email}`, {
+    const resposne = await fetch(`/wp/user?email=${auth.currentUser.email}`, {
       method: 'GET',
       headers: {
         'Content-Type' : 'application/json',
@@ -147,11 +147,13 @@ function handleIf(e){
 
 <button style={{backgroundColor :  (select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=>!prev)}}>Global Users</button>
 <button style={{backgroundColor :  (!select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=>!prev)}}>Contacts</button>
+{select && <div className='detail_new'>Click on User add icon to add to Your Contacts</div>}
 {select && users.map((user)=>{
   console.log(user)
   return <Chats details={user} contacts={false} changeit={changeCheck}  changeProvide={props.changeProvide} provide={props.provide} msg={props.msg} changemsg={props.changemsg}/>
 })}
 
+{!select && <div className='detail_new'>Double Click on Contact to display chats</div>}
 {!select && contacts.map((contact)=>{
   return <Chats details={contact} contacts={true} changeit={changeCheck} changeProvide={props.changeProvide} provide={props.provide} msg={props.msg} changemsg={props.changemsg}/>
 })}
@@ -164,4 +166,5 @@ function handleIf(e){
     </div>
   )
 }
+
 
