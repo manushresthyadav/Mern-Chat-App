@@ -39,7 +39,7 @@ export default function useLogin (){
                     })
                 }}></input>
                 
-                <button onClick={handleSubmit}>Register</button>
+                <button onClick={handleSubmit}>Login</button>
                
             </form>
 
