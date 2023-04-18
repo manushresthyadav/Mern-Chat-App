@@ -27,3 +27,8 @@ font-weight: bold;
     position: absolute;
     top: 15px;
 }
+.sidebar__display__chats{
+    display: flex;
+    flex-direction: column;
+
+}
