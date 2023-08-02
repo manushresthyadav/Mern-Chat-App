@@ -1,27 +1,24 @@
-import React, { useEffect, useState, useRef } from 'react'
-import "./styles.css"
-import { Avatar } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {IconButton} from '@mui/material';
-import TagFacesIcon from '@mui/icons-material/TagFaces';
 import MicIcon from '@mui/icons-material/Mic';
-import Message from "./messages";
-import { MyContext } from './Context';
-import { useContext } from 'react';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SearchIcon from '@mui/icons-material/Search';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
+import { Avatar, IconButton } from '@mui/material';
 import { getAuth } from 'firebase/auth';
-import firestore from "../firebase/firebase"
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { MyContext } from './Context';
+import Message from "./messages";
+import "./styles.css";
 export default function useChat(props){
 
 const auth = getAuth();
 
-
+console.log(props.msg);
     const [nam,changeNam] = useState({
         name:props.provide.name,
         email:props.provide.email,
     });
- 
+ console.log(props.provide)
 const Context = useContext(MyContext);
 
 const [runEffect, setRunEffect] = useState(false);
@@ -31,12 +28,12 @@ const [runEffect, setRunEffect] = useState(false);
       setRunEffect(true);
     }
   }, [Context]);
-
+console.log(Context);
 const [message,changeMessage] = useState("");
     const [allMessages,changeAllMessages] = useState(props.msg);
-
+console.log(allMessages);
 useEffect(()=>{
-    ('inside the useEffect, context changed')
+    console.log('inside the useEffect, context changed')
     if(Context  &&  Context.name!==""){
         changeNam({
             name:Context.name,
@@ -47,18 +44,21 @@ useEffect(()=>{
             email:Context.email,
         }));
         const x = JSON.parse(localStorage.getItem('user'));
-        (x);
-        ('making the props.changeProvide change and hence to render the app.js component ')
+        console.log(x);
+        console.log('making the props.changeProvide change and hence to render the app.js component ')
 props.changeProvide({
     name:Context.name,
     email:Context.email,
 })
-
-        setRunEffect(( prev)=>{return !prev});
+setRunEffect(( prev)=>{return !prev});
     }
     
 },[Context]);
 
+
+
+console.log(nam);
+console.log(props.provide);
 
 const chatContainerRef = useRef(null);
 useEffect(() => {
@@ -74,18 +74,21 @@ useEffect(()=>{
 
 async function getdata(){
 
-    ('aya',props.provide.email , auth.currentUser.email);
+    console.log('INTEREST!!!!!',props.provide.email , auth.currentUser.email);
     const res = await fetch(`${BASE_URL}/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`);
 // REMEMBER TO ADD BASE_URL IN HERE WHEN DEPLOYING THE FROTNEND -> THAT IS THE URL OF THE WEBSITE WHERE THE BACKEND IS DEPLOYED
 
+    console.log(res)
+
     if(res.ok){
     const response = await res.json();
+    console.log(response);
 
     changeAllMessages(response);
     props.changemsg(response);
     localStorage.setItem("messages",JSON.stringify(response));
     }else{
-        ('response is invalid')
+        console.log('response is invalid')
     }
 
 } 
@@ -95,28 +98,39 @@ getdata();
 },[Context,runEffect])
 
 
-// (allMessages);
+// console.log(allMessages);
 const [error,setError] = useState("");
 function handleClick(e){
     const label = document.getElementsByClassName("label")[0];
-    (label)
+    console.log(label)
     label.style.display = 'none';
     
 }
-
+const [posrec,changeposres] = useState({
+    poster: "",
+    receiver: "",
+})
 async function handleSubmit(e){
     e.preventDefault();
+    console.log('aya')
    const all = document.querySelectorAll('.chat__input');
    all.forEach((elm)=>{
-    (elm.textContent)
+    console.log(elm.textContent)
    })
     const msg= message;
     const time = new Date().toISOString();
     const name = auth.currentUser.displayName;
     const poster = auth.currentUser.email;
+    
 const receiver = props.provide.email;
-
+changeposres({
+    poster: poster,
+    receiver: receiver,
+})
+console.log('poster is : ', poster);
+console.log('receiver is : ' , receiver);
     const json =  {name:name,message:msg,timestamp:time,receiver:receiver,poster:poster};
+    console.log(json)
 
     const response = await fetch(`${BASE_URL}/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`,{
 
@@ -124,9 +138,11 @@ const receiver = props.provide.email;
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify(json)
     });
+console.log(response)
     // const res = await response.json();
     if (response.ok) {
         const res = await response.json();
+        console.log('successful response:', res);
       
         const form = document.getElementsByClassName("form__input")[0];
         form.reset();
@@ -136,12 +152,9 @@ const receiver = props.provide.email;
           return [ ...prev, res ];
         });
         props.changemsg([...props.msg,res]);
-        const chatContainer = document.getElementsByClassName('chats__display');
-        chatContainer.forEach((elm)=>{
-            elm.scrollTop = elm.scrollHeight;
-        })
+      
       } else {
-        ('unsuccessful response');
+        console.log('unsuccessful response');
         setError('There was some error while sending the message.');
       }
 }
@@ -150,10 +163,11 @@ function handleIf(e){
     const x = e.target.value;
     if(x===''){
         const label = document.getElementsByClassName("label")[0];
+        console.log(label)
         label.style.display = 'block';
     }
 }
-('all messages' , allMessages);
+console.log('all messages' , allMessages);
     return (
         <div className='chat'>
 
@@ -210,11 +224,6 @@ changeMessage(()=>{
         </div>
     )
 }
-
-
-
-
-
 
 
 
