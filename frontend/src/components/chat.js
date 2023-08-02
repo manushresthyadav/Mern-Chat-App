@@ -16,12 +16,12 @@ export default function useChat(props){
 
 const auth = getAuth();
 
-(props.msg);
+
     const [nam,changeNam] = useState({
         name:props.provide.name,
         email:props.provide.email,
     });
- (props.provide)
+ 
 const Context = useContext(MyContext);
 
 const [runEffect, setRunEffect] = useState(false);
@@ -31,10 +31,10 @@ const [runEffect, setRunEffect] = useState(false);
       setRunEffect(true);
     }
   }, [Context]);
-(Context);
+
 const [message,changeMessage] = useState("");
     const [allMessages,changeAllMessages] = useState(props.msg);
-(allMessages);
+
 useEffect(()=>{
     ('inside the useEffect, context changed')
     if(Context  &&  Context.name!==""){
@@ -60,10 +60,6 @@ props.changeProvide({
 },[Context]);
 
 
-
-(nam);
-(props.provide);
-
 const chatContainerRef = useRef(null);
 useEffect(() => {
     if (chatContainerRef.current) {
@@ -82,11 +78,8 @@ async function getdata(){
     const res = await fetch(`${BASE_URL}/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`);
 // REMEMBER TO ADD BASE_URL IN HERE WHEN DEPLOYING THE FROTNEND -> THAT IS THE URL OF THE WEBSITE WHERE THE BACKEND IS DEPLOYED
 
-    (res)
-
     if(res.ok){
     const response = await res.json();
-    (response);
 
     changeAllMessages(response);
     props.changemsg(response);
@@ -113,7 +106,6 @@ function handleClick(e){
 
 async function handleSubmit(e){
     e.preventDefault();
-    ('aya')
    const all = document.querySelectorAll('.chat__input');
    all.forEach((elm)=>{
     (elm.textContent)
@@ -125,7 +117,6 @@ async function handleSubmit(e){
 const receiver = props.provide.email;
 
     const json =  {name:name,message:msg,timestamp:time,receiver:receiver,poster:poster};
-    (json)
 
     const response = await fetch(`${BASE_URL}/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`,{
 
@@ -133,11 +124,9 @@ const receiver = props.provide.email;
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify(json)
     });
-(response)
     // const res = await response.json();
     if (response.ok) {
         const res = await response.json();
-        ('successful response:', res);
       
         const form = document.getElementsByClassName("form__input")[0];
         form.reset();
@@ -161,7 +150,6 @@ function handleIf(e){
     const x = e.target.value;
     if(x===''){
         const label = document.getElementsByClassName("label")[0];
-        (label)
         label.style.display = 'block';
     }
 }
