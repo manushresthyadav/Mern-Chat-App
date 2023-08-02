@@ -1,13 +1,9 @@
 
+import Pusher from "pusher-js";
 import { useEffect, useState } from 'react';
 import './App.css';
-import Chat from "./components/chat"
-import Sidebar from "./components/sidebar"
-import Pusher from "pusher-js"
-import { ContextProvider } from './components/Context';
-import { MyContext } from './components/Context';
-import { useContext } from 'react';
-import messages from './components/messages';
+import Chat from "./components/chat";
+import Sidebar from "./components/sidebar";
 function App() {
 
 // const Context  = useContext(MyContext);
@@ -17,16 +13,17 @@ function changeRender(){
   rerender(!render);
 }
 
-const res = JSON.parse(localStorage.getItem("user"));
+const res = JSON.parse(sessionStorage.getItem("user"));
 console.log(res)
 
 const [provide,changeProvide] = useState({
-  name:res.name,
-  email:res.email,
+  name:res ? res.name : '',
+  email:res ? res.email : '',
 });
-const newmsg = JSON.parse(localStorage.getItem("messages"));
+const newmsg = JSON.parse(sessionStorage.getItem("messages"));
 console.log(newmsg);
-const [msg,changemsg] = useState(JSON.parse(localStorage.getItem("messages")));
+
+const [msg,changemsg] = useState(newmsg ? JSON.parse(sessionStorage.getItem("messages")) : []);
 
 // useEffect(()=>{
 //   if(res!=undefined){

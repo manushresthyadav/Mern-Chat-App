@@ -13,12 +13,12 @@ export default function useChat(props){
 
 const auth = getAuth();
 
-console.log(props.msg);
+
     const [nam,changeNam] = useState({
         name:props.provide.name,
         email:props.provide.email,
     });
- console.log(props.provide)
+ 
 const Context = useContext(MyContext);
 
 const [runEffect, setRunEffect] = useState(false);
@@ -28,12 +28,12 @@ const [runEffect, setRunEffect] = useState(false);
       setRunEffect(true);
     }
   }, [Context]);
-console.log(Context);
+
 const [message,changeMessage] = useState("");
     const [allMessages,changeAllMessages] = useState(props.msg);
-console.log(allMessages);
+
 useEffect(()=>{
-    console.log('inside the useEffect, context changed')
+    ('inside the useEffect, context changed')
     if(Context  &&  Context.name!==""){
         changeNam({
             name:Context.name,
@@ -44,21 +44,18 @@ useEffect(()=>{
             email:Context.email,
         }));
         const x = JSON.parse(sessionStorage.getItem('user'));
-        console.log(x);
-        console.log('making the props.changeProvide change and hence to render the app.js component ')
+        (x);
+        ('making the props.changeProvide change and hence to render the app.js component ')
 props.changeProvide({
     name:Context.name,
     email:Context.email,
 })
-setRunEffect(( prev)=>{return !prev});
+
+        setRunEffect(( prev)=>{return !prev});
     }
     
 },[Context]);
 
-
-
-console.log(nam);
-console.log(props.provide);
 
 const chatContainerRef = useRef(null);
 useEffect(() => {
@@ -73,22 +70,19 @@ useEffect(() => {
 useEffect(()=>{
 
 async function getdata(){
-console.log('REQUIRED!!!', 'this is the props.provide.email ',props.provide.email , 'and this is the session storage vala', JSON.parse(sessionStorage.getItem('user')).email)
-    console.log('INTEREST!!!!!',props.provide.email , sessionStorage.getItem('loggedInuser'));
-    const res = await fetch(`${BASE_URL}/wp?user1=${sessionStorage.getItem('loggedInuser')}&user2=${props.provide.email}`);
-// REMEMBER TO ADD BASE_URL IN HERE WHEN DEPLOYING THE FROTNEND -> THAT IS THE URL OF THE WEBSITE WHERE THE BACKEND IS DEPLOYED
 
-    console.log(res)
+    ('aya',props.provide.email , auth.currentUser.email);
+    const res = await fetch(`${BASE_URL}/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`);
+// REMEMBER TO ADD BASE_URL IN HERE WHEN DEPLOYING THE FROTNEND -> THAT IS THE URL OF THE WEBSITE WHERE THE BACKEND IS DEPLOYED
 
     if(res.ok){
     const response = await res.json();
-    console.log(response);
 
     changeAllMessages(response);
     props.changemsg(response);
     sessionStorage.setItem("messages",JSON.stringify(response));
     }else{
-        console.log('response is invalid')
+        ('response is invalid')
     }
 
 } 
@@ -98,51 +92,38 @@ getdata();
 },[Context,runEffect])
 
 
-// console.log(allMessages);
+// (allMessages);
 const [error,setError] = useState("");
 function handleClick(e){
     const label = document.getElementsByClassName("label")[0];
-    console.log(label)
+    (label)
     label.style.display = 'none';
     
 }
-const [posrec,changeposres] = useState({
-    poster: "",
-    receiver: "",
-})
+
 async function handleSubmit(e){
     e.preventDefault();
-    console.log('aya')
    const all = document.querySelectorAll('.chat__input');
    all.forEach((elm)=>{
-    console.log(elm.textContent)
+    (elm.textContent)
    })
     const msg= message;
     const time = new Date().toISOString();
     const name = auth.currentUser.displayName;
     const poster = auth.currentUser.email;
-    
 const receiver = props.provide.email;
-changeposres({
-    poster: poster,
-    receiver: receiver,
-})
-console.log('poster is : ', poster);
-console.log('receiver is : ' , receiver);
-    const json =  {name:name,message:msg,timestamp:time,receiver:receiver,poster:poster};
-    console.log(json)
 
-    const response = await fetch(`${BASE_URL}/wp?user1=${sessionStorage.getItem('loggedInuser')}&user2=${props.provide.email}`,{
+    const json =  {name:name,message:msg,timestamp:time,receiver:receiver,poster:poster};
+
+    const response = await fetch(`${BASE_URL}/wp?user1=${auth.currentUser.email}&user2=${props.provide.email}`,{
 
         method:'POST',
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify(json)
     });
-console.log(response)
     // const res = await response.json();
     if (response.ok) {
         const res = await response.json();
-        console.log('successful response:', res);
       
         const form = document.getElementsByClassName("form__input")[0];
         form.reset();
@@ -152,9 +133,12 @@ console.log(response)
           return [ ...prev, res ];
         });
         props.changemsg([...props.msg,res]);
-      
+        const chatContainer = document.getElementsByClassName('chats__display');
+        chatContainer.forEach((elm)=>{
+            elm.scrollTop = elm.scrollHeight;
+        })
       } else {
-        console.log('unsuccessful response');
+        ('unsuccessful response');
         setError('There was some error while sending the message.');
       }
 }
@@ -163,11 +147,10 @@ function handleIf(e){
     const x = e.target.value;
     if(x===''){
         const label = document.getElementsByClassName("label")[0];
-        console.log(label)
         label.style.display = 'block';
     }
 }
-console.log('all messages' , allMessages);
+('all messages' , allMessages);
     return (
         <div className='chat'>
 
@@ -224,6 +207,11 @@ changeMessage(()=>{
         </div>
     )
 }
+
+
+
+
+
 
 
 

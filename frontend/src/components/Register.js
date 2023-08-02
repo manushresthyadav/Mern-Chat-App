@@ -1,14 +1,13 @@
 
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useState } from "react";
-import {  useNavigate} from "react-router-dom"
-import {getAuth} from "firebase/auth"
-import {createUserWithEmailAndPassword} from "firebase/auth"
-import {app} from "../firebase/firebase"
+import { useNavigate } from "react-router-dom";
+import { app } from "../firebase/firebase";
  // const mongoose = require('mongoose');
-import './Auth.css'
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
+import './Auth.css';
 export default function useRegister (){
-   
+    const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
 
     const Navigate = useNavigate();
     const [data,changedata] = useState({
@@ -38,7 +37,7 @@ else{
         const user = await createUserWithEmailAndPassword(auth,data.email,data.password).then((userc)=>{
             console.log(userc);
 
-            fetch('/wp/user',{
+            fetch(`${BASE_URL}/wp/user`,{
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json'
@@ -52,7 +51,7 @@ else{
 
 
         console.log("succefull register");
-        Navigate('/main');
+        Navigate('/login');
     }
     return(
         <>
@@ -79,7 +78,7 @@ else{
             </form>
             <div>OR</div>
             <Link to="/login">
-            <button>Sign In</button>
+            <button className="btn">Sign In</button>
             </Link>
            
         </div>

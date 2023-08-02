@@ -1,12 +1,12 @@
 
-import "./styles.css"
 import { getAuth } from "firebase/auth";
+import "./styles.css";
 export default function messages(props){
 props=props.content;
 let check = 'chat__body';
 
 const auth  = getAuth();
-const loggedIn = auth.currentUser.email;
+const loggedIn = sessionStorage.getItem('loggedInuser');
 console.log(loggedIn);
 console.log(props.poster);
 console.log(props)

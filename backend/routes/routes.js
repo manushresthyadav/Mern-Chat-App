@@ -44,8 +44,8 @@ const msgModel1 = mongoose.model(`${user1}${user2}`,whatsappSchema);
   name:name,
   message: message,
   timestamp: timestamp,
-  receiver: user1,
-  poster: user2,
+  receiver: user2,
+  poster: user1,
  });
 msg2.save();
  msg1.save().then((result)=>{
@@ -86,6 +86,8 @@ console.log('request to fetch all users entered' , email)
       console.log(res.email);
       if(res.email!==email){
         return res;
+      }else{
+        console.log('email match hori')
       }
     });
     res.status(200).json(resultExcLogged);

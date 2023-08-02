@@ -1,19 +1,17 @@
-import React,{useEffect, useState} from 'react'
-import "./styles.css"
-import DonutLargeIcon from '@mui/icons-material/DonutLarge';
-import {  IconButton } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
-import {Avatar} from '@mui/material';
+import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
-import Chats from "./chats";
-import Pusher from "pusher-js"
-import { responsiveProperty } from '@mui/material/styles/cssUtils';
+import { Avatar, IconButton } from '@mui/material';
 import { getAuth } from 'firebase/auth';
-import {app} from "../firebase/firebase";
+import Pusher from "pusher-js";
+import React, { useEffect, useState } from 'react';
+import { app } from "../firebase/firebase";
+import Chats from "./chats";
+import "./styles.css";
 
 export default function useSidebar  (props)  {
-
+  const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
  
   
 const [contacts , changeContacts ] = useState([{
@@ -33,37 +31,39 @@ const changeCheck = () => {
 const auth = getAuth(app);
 
 console.log(auth.currentUser);
-const uid = auth.currentUser.uid;
+const uid = sessionStorage.getItem('uid');
 
 const [select, changeselect] = useState(true);
-
+console.log(select);
 useEffect(()=>{
 console.log('inside the contacts useffect');
 
 async function getContacts(){
-  const response = await fetch(`wp/contacts?uid=${uid}` , {
+  const response = await fetch(`${BASE_URL}/wp/contacts?uid=${uid}` , {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     }
   });
 
+  if(response.ok){
 const contacts = await response.json();
 console.log(contacts)
 changeContacts(contacts);
-
+  }
 }
 
+if(!select)
 getContacts();
 
 
-},[check])
+},[check,select])
 
 useEffect(()=>{
 console.log('inside previous sidebar useeffect6')
   async function getAllUsers(){
 
-    const resposne = await fetch(`/wp/user?email=${auth.currentUser.email}`, {
+    const resposne = await fetch(`${BASE_URL}/wp/user?email=${sessionStorage.getItem('loggedInuser')}`, {
       method: 'GET',
       headers: {
         'Content-Type' : 'application/json',
@@ -78,7 +78,7 @@ console.log('inside previous sidebar useeffect6')
   getAllUsers();
  
 
-},[])
+},[check,select])
 
 
   useEffect(()=>{
@@ -145,13 +145,15 @@ function handleIf(e){
     <div className='sidebar__chat__container'>
 <div className='sidebar__chat'>
 
-<button style={{backgroundColor :  (select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=>!prev)}}>Global Users</button>
-<button style={{backgroundColor :  (!select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=>!prev)}}>Contacts</button>
+<button style={{backgroundColor :  (select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=> {return !prev})}}>Global Users</button>
+<button style={{backgroundColor :  (!select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=> {return !prev})}}>Contacts</button>
+{select && <div className='detail_new'>Click on User add icon to add to Your Contacts</div>}
 {select && users.map((user)=>{
   console.log(user)
   return <Chats details={user} contacts={false} changeit={changeCheck}  changeProvide={props.changeProvide} provide={props.provide} msg={props.msg} changemsg={props.changemsg}/>
 })}
 
+{!select && <div className='detail_new'>Double Click on Contact to display chats</div>}
 {!select && contacts.map((contact)=>{
   return <Chats details={contact} contacts={true} changeit={changeCheck} changeProvide={props.changeProvide} provide={props.provide} msg={props.msg} changemsg={props.changemsg}/>
 })}

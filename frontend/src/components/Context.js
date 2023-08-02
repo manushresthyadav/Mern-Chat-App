@@ -1,5 +1,4 @@
 import { createContext } from "react";
-import App from '../App'
 export const MyContext = createContext();
 export const  ContextProvider= ({children,value})=>{
 console.log(children)

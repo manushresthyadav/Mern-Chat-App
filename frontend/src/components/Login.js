@@ -1,9 +1,9 @@
 
-import { getAuth , signInWithEmailAndPassword } from "firebase/auth"
-import {app} from "../firebase/firebase"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Auth.css"
+import { app } from "../firebase/firebase";
+import "./Auth.css";
 export default function useLogin (){
 
 
@@ -18,7 +18,9 @@ export default function useLogin (){
         e.preventDefault();
         const auth = getAuth(app);
         signInWithEmailAndPassword(auth,data.email,data.password).then((userc)=>{
-            console.log('signed in : ' , userc);
+            console.log('signed in : MAIN!!!' , userc);
+            sessionStorage.setItem('loggedInuser',data.email);
+            sessionStorage.setItem('uid',userc.user.uid);
         Navigate('/main');
         })
     }
@@ -39,7 +41,7 @@ export default function useLogin (){
                     })
                 }}></input>
                 
-                <button onClick={handleSubmit}>Register</button>
+                <button onClick={handleSubmit}>Login</button>
                
             </form>
 

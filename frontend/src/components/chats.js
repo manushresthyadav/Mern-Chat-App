@@ -1,18 +1,16 @@
 
-import "./chats.css"
-import { Avatar } from "@mui/material"
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import {  IconButton } from '@mui/material';
-import { getAuth } from "firebase/auth";
-import {app} from "../firebase/firebase"
+import "./chats.css";
+// import "./styles.css"
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { Children, useState } from "react";
-import { createContext } from "react";
-import {ContextProvider} from "./Context";
-import Chat from "./chat"
-import App from "../App"
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import { Avatar, IconButton } from "@mui/material";
+import { getAuth } from "firebase/auth";
+import { useState } from "react";
+import { app } from "../firebase/firebase";
+import { ContextProvider } from "./Context";
+import Chat from "./chat";
  function useChats (props) {
-
+const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
 const auth = getAuth(app);
 console.log(auth.currentUser);
 
@@ -22,7 +20,7 @@ const [ replState,changeReplstate] = useState({
     name:props.provide.name,
     email:props.provide.email,
 })
-const uid= auth.currentUser.uid;
+const uid= sessionStorage.getItem('uid');
 console.log(uid)
 async function handleClick(e){
     console.log('inside handle click to post the contacts');
@@ -35,7 +33,7 @@ async function handleClick(e){
     const name = fc.textContent;
     const email = sc.textContent;
     console.log(email , name)
-   const response = await fetch(`/wp/contacts`,{
+   const response = await fetch(`${BASE_URL}/wp/contacts`,{
         method: 'POST',
         headers: {
             'Content-Type' : 'application/json',
