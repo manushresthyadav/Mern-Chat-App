@@ -23,7 +23,9 @@ const [provide,changeProvide] = useState({
 const newmsg = JSON.parse(sessionStorage.getItem("messages"));
 console.log(newmsg);
 
+
 const [msg,changemsg] = useState(newmsg ? JSON.parse(sessionStorage.getItem("messages")) : []);
+
 
 // useEffect(()=>{
 //   if(res!=undefined){
@@ -68,3 +70,4 @@ console.log(provide);
 }
 
 export default App;
+

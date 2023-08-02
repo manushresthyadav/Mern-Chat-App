@@ -1,6 +1,8 @@
 
+
 import "./chats.css";
 // import "./styles.css"
+
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { Avatar, IconButton } from "@mui/material";
@@ -106,7 +108,7 @@ return (
     </div>
     <div style={{display:"none"}}>
     <ContextProvider value={replState}>
-        <Chat changeProvide={props.changeProvide} provide={props.provide} msg={props.msg} changemsg={props.changemsg}/>
+        <Chat changeProvide={props.changeProvide} provide={replState} msg={props.msg} changemsg={props.changemsg}/>
     </ContextProvider>
     </div>
     </>

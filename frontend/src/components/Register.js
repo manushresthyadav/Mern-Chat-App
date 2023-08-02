@@ -7,7 +7,9 @@ import { app } from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import './Auth.css';
 export default function useRegister (){
+
     const BASE_URL = 'https://whatsapp-manu-h2xq-dgve.onrender.com';
+
 
     const Navigate = useNavigate();
     const [data,changedata] = useState({

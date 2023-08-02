@@ -63,7 +63,9 @@ useEffect(()=>{
 console.log('inside previous sidebar useeffect6')
   async function getAllUsers(){
 
+
     const resposne = await fetch(`${BASE_URL}/wp/user?email=${sessionStorage.getItem('loggedInuser')}`, {
+
       method: 'GET',
       headers: {
         'Content-Type' : 'application/json',
@@ -147,6 +149,7 @@ function handleIf(e){
 
 <button style={{backgroundColor :  (select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=> {return !prev})}}>Global Users</button>
 <button style={{backgroundColor :  (!select ? '#efefef' : 'white') }} onClick={()=>{changeselect((prev)=> {return !prev})}}>Contacts</button>
+
 {select && <div className='detail_new'>Click on User add icon to add to Your Contacts</div>}
 {select && users.map((user)=>{
   console.log(user)
@@ -166,4 +169,7 @@ function handleIf(e){
     </div>
   )
 }
+
+
+
 

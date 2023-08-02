@@ -76,6 +76,9 @@ async function getdata(){
 console.log('REQUIRED!!!', 'this is the props.provide.email ',props.provide.email , 'and this is the session storage vala', JSON.parse(sessionStorage.getItem('user')).email)
     console.log('INTEREST!!!!!',props.provide.email , sessionStorage.getItem('loggedInuser'));
     const res = await fetch(`${BASE_URL}/wp?user1=${sessionStorage.getItem('loggedInuser')}&user2=${props.provide.email}`);
+
+
+
 // REMEMBER TO ADD BASE_URL IN HERE WHEN DEPLOYING THE FROTNEND -> THAT IS THE URL OF THE WEBSITE WHERE THE BACKEND IS DEPLOYED
 
     console.log(res)
@@ -119,8 +122,8 @@ async function handleSubmit(e){
    })
     const msg= message;
     const time = new Date().toISOString();
-    const name = auth.currentUser.displayName;
-    const poster = auth.currentUser.email;
+    const name = sessionStorage.getItem('loggedInuser').split('@')[0];
+    const poster = sessionStorage.getItem('loggedInuser');
     
 const receiver = props.provide.email;
 changeposres({
@@ -132,7 +135,9 @@ console.log('receiver is : ' , receiver);
     const json =  {name:name,message:msg,timestamp:time,receiver:receiver,poster:poster};
     console.log(json)
 
+
     const response = await fetch(`${BASE_URL}/wp?user1=${sessionStorage.getItem('loggedInuser')}&user2=${props.provide.email}`,{
+
 
         method:'POST',
         headers: {'Content-Type' : 'application/json'},
